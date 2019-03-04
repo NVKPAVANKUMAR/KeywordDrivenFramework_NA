@@ -1,30 +1,41 @@
 package com.qa.hs.tests;
 
+import com.qa.hs.keyword.engine.KeyWordEngine;
+import com.qa.hs.keyword.report_utility.ExtentReport;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import com.qa.hs.keyword.engine.KeyWordEngine;
 /**
- * 
  * @author NaveenKhunteta
- *
  */
 public class LoginTest {
-	
-	public KeyWordEngine keyWordEngine;
-	
-	@Test
-	public void loginTest(){
-		keyWordEngine = new KeyWordEngine();
-		keyWordEngine.startExecution("login");
-	}
-	
-	@Test
-	public void signUpTest(){
-		keyWordEngine = new KeyWordEngine();
-		keyWordEngine.startExecution("signup");
-	}
-	
-	
-	
 
+    private KeyWordEngine keyWordEngine;
+    private ExtentReport extentReport;
+
+    @BeforeTest
+    public void setUp() {
+        extentReport = new ExtentReport();
+        extentReport.startReport();
+    }
+
+    @Test
+    public void loginTest() {
+        keyWordEngine = new KeyWordEngine();
+        ExtentReport.logger = extentReport.extent.createTest("To verify Login functionality");
+        keyWordEngine.startExecution("login");
+    }
+
+    @Test
+    public void signUpTest() {
+        keyWordEngine = new KeyWordEngine();
+        ExtentReport.logger = extentReport.extent.createTest("To verify SignUp functionality");
+        keyWordEngine.startExecution("signup");
+    }
+
+    @AfterTest
+    public void endReport() {
+        extentReport.extent.flush();
+    }
 }

@@ -12,11 +12,10 @@ import org.testng.annotations.Test;
 public class LoginTest {
 
     private KeyWordEngine keyWordEngine;
-    private ExtentReport extentReport;
+    private ExtentReport extentReport = new ExtentReport();
 
     @BeforeTest
     public void setUp() {
-        extentReport = new ExtentReport();
         extentReport.startReport();
     }
 
@@ -36,6 +35,6 @@ public class LoginTest {
 
     @AfterTest
     public void endReport() {
-        extentReport.extent.flush();
+        extentReport.endReport();
     }
 }

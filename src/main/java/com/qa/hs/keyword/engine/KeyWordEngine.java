@@ -22,17 +22,14 @@ import java.util.Properties;
  */
 public class KeyWordEngine {
 
-    public WebDriver driver;
-    public Properties prop;
-
     public static Workbook book;
     public static Sheet sheet;
-
+    public final String SCENARIO_SHEET_PATH = "C:\\Users\\pavan.nemalikanti\\IdeaProjects\\Keyword-Driven-Web-UI-Framework\\src\\main\\java\\com\\qa\\hs\\keyword\\scenarios\\hubspot_scenarios.xlsx";
+    public WebDriver driver;
+    public Properties prop;
     public Base base;
     public WebElement element;
     public WebDriverWait wait;
-
-    public final String SCENARIO_SHEET_PATH = "C:\\Users\\pavan.nemalikanti\\IdeaProjects\\Keyword-Driven-Web-UI-Framework\\src\\main\\java\\com\\qa\\hs\\keyword\\scenarios\\hubspot_scenarios.xlsx";
 
     public void startExecution(String sheetName) {
 
@@ -53,7 +50,6 @@ public class KeyWordEngine {
         int k = 0;
         for (int i = 0; i < sheet.getLastRowNum(); i++) {
             try {
-
                 String locatorType = sheet.getRow(i + 1).getCell(k + 1).toString().trim();
                 String locatorValue = sheet.getRow(i + 1).getCell(k + 2).toString().trim();
                 String action = sheet.getRow(i + 1).getCell(k + 3).toString().trim();
@@ -84,6 +80,12 @@ public class KeyWordEngine {
                         driver.quit();
                         ExtentReport.logger.info("Browser closed");
                         break;
+
+                    case "maximize":
+                        driver.manage().window().maximize();
+                        ExtentReport.logger.info("Browser window Maximized");
+                        break;
+
                     default:
                         break;
                 }
@@ -116,13 +118,13 @@ public class KeyWordEngine {
                             element.isDisplayed();
                         } else if (action.equalsIgnoreCase("getText")) {
                             String elementText = element.getText();
-                            System.out.println("text from element : " + elementText);
+                            // System.out.println("text from element : " + elementText);
                         }
                         locatorType = null;
                         break;
 
                     case "xpath":
-                        wait = new WebDriverWait(driver, 10);
+                        wait = new WebDriverWait(driver, 20);
                         wait.until(ExpectedConditions.titleContains("Reports dashboard"));
                         element = driver.findElement(By.xpath(locatorValue));
                         if (action.equalsIgnoreCase("sendkeys")) {
@@ -190,8 +192,6 @@ public class KeyWordEngine {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
-
     }
 }

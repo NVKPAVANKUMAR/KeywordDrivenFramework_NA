@@ -8,11 +8,14 @@ import com.aventstack.extentreports.reporter.configuration.Theme;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author Pavan
+ */
 public class ExtentReport {
 
-    private ExtentHtmlReporter htmlReporter;
-    public ExtentReports extent;
     public static ExtentTest logger;
+    public ExtentReports extent;
+    private ExtentHtmlReporter htmlReporter;
 
     public void startReport() {
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
@@ -27,5 +30,9 @@ public class ExtentReport {
         htmlReporter.config().setDocumentTitle("Extent Test Report");
         htmlReporter.config().setReportName("Automation Results");
         htmlReporter.config().setTheme(Theme.DARK);
+    }
+
+    public void endReport() {
+        extent.flush();
     }
 }
